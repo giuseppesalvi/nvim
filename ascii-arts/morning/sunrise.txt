@@ -1,0 +1,8 @@
+# name: Sunrise
+# style: minimal
+    \   |   /
+     .--'--.
+   /   *    \
+  |  MORNING |
+   \________/
+~~~~~~~~~~~~~~~
