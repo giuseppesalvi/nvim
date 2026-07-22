@@ -9,17 +9,21 @@ return {
     lazy = false,
   },
 
-  -- Cinematic ASCII animation for dashboard header
+  -- Cinematic ASCII animation for dashboard header (local dev)
   {
-    "giuseppesalvi/nvim-ascii-animation",
-    event = "VimEnter",
+    dir = "~/Projects/nvim-ascii-animation",
+    lazy = false,
     config = function()
       require("ascii-animation").setup({
         animation = {
           enabled = true,
+          effect = "random",  -- Showcase all 13 effects!
           steps = 40,
-          min_delay = 20,
-          max_delay = 120,
+          min_delay = 15,
+          max_delay = 50,
+        },
+        content = {
+          custom_arts_dir = "~/.config/nvim/ascii-arts",
         },
       })
       require("ascii-animation").setup_snacks({
@@ -763,14 +767,13 @@ return {
         },
       }
 
-      -- Random selection
-      math.randomseed(os.time() + math.floor(os.clock() * 1000))
-      local header = art[period][math.random(#art[period])]
-      local tagline = taglines[period][math.random(#taglines[period])]
+      -- Use plugin's content API for immediate testing of plugin changes
+      local ascii = require("ascii-animation")
+      local content = ascii.get_header()
       local datetime = os.date("%A, %B %d • %H:%M")
 
       -- Build the header
-      local formatted_header = "\n" .. header .. "\n\n" .. tagline .. "\n" .. datetime .. "\n"
+      local formatted_header = "\n" .. table.concat(content.art, "\n") .. "\n\n" .. content.message .. "\n" .. datetime .. "\n"
 
       -- Count header lines for animation plugin
       local header_line_count = #vim.split(formatted_header, "\n") + 3
